@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 设置：日志打印&驼峰命名-->
+    <settings>
+        <!-- 设置日志打印 -->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+        <!-- 设置驼峰命名规则 -->
+        <setting name="mapUnderscoreToCamelCase" value="true" />
+    </settings>
+
+    <!--起别名-->
+    <typeAliases>
+        <!--如果指定了一个包名,那么包下面的所有的类极其子类都会自动生成一个别名
+        别名规则: 当前类名,首字母小写-->
+        <package name="com.hopu.domain"/>
+    </typeAliases>
+
+    <plugins>
+        <!-- 分页查询插件 -->
+        <plugin interceptor="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor">
+            <property name="dialectType" value="mysql" />
+        </plugin>
+    </plugins>
+</configuration>
