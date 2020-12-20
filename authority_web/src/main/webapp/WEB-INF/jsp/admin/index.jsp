@@ -37,17 +37,23 @@
 			<div class="layui-side-scroll">
 				<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
 				<ul class="layui-nav layui-nav-tree" lay-filter="test">
-						<li class="layui-nav-item layui-nav-itemed"><a class="" href="javascript:;"><span class='iconfont icon-setup'></span>&nbsp;&nbsp;系统管理</a>
-
-<%--							<shiro:hasPermission name="user:list">--%>
-								<dl class="layui-nav-child">
-									<dd>
-										<a href="javascript:;" style="padding-left: 40px;" data-url="/user/toList">
-											<span class='iconfont icon-people'></span>&nbsp;&nbsp;用户管理</a>
-									</dd>
-								</dl>
-<%--							</shiro:hasPermission>--%>
-							<shiro:hasPermission name="role:list">
+                    <c:forEach items="${sessionScope.leftMenu}" var="menu">
+                        <li class="layui-nav-item layui-nav-itemed">
+                            <a class="" href="javascript:;">
+                                <span class='iconfont ${menu.menuImg}'></span>&nbsp;&nbsp;${menu.menuName}
+                            </a>
+                            <c:forEach items="${menu.nodes}" var="menu2">
+                                <dl class="layui-nav-child">
+                                    <dd>
+                                        <a href="javascript:;" style="padding-left: 40px;" data-url="${menu2.url}">
+                                            <span class='iconfont ${menu2.menuImg}'></span>&nbsp;&nbsp;${menu2.menuName}
+                                        </a>
+                                    </dd>
+                                </dl>
+                            </c:forEach>
+                        </li>
+                    </c:forEach>
+<%--							<shiro:hasPermission name="role:list">
 								<dl class="layui-nav-child">
 									<dd>
 										<a href="javascript:;" style="padding-left: 40px;" data-url="/role/toList">
@@ -60,11 +66,12 @@
 								<dl class="layui-nav-child">
 									<dd>
 										<a href="javascript:;" style="padding-left: 40px;" data-url="/menu/toList">
-											<span class='iconfont icon-createtask'></span>&nbsp;&nbsp;菜单管理</a>
+											<span class='iconfont icon-createtask'></span>&nbsp;&nbsp;菜单管理
+										</a>
 									</dd>
 								</dl>
-							</shiro:hasPermission>
-						</li>
+							</shiro:hasPermission>--%>
+
 				</ul>
 			</div>
 		</div>

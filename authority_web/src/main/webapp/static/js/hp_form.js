@@ -14,6 +14,7 @@ layui.use('form', function() {
 		$.post($('form').attr("action"),data.field, function (e){
 			// var data = JSON.parse(e);
 			if (e.result == true) {
+				location.reload();
 				parent.closeLayer(e.msg);
 				layer.msg('操作成功：' + e.msg, {icon: 1, time: 2000});
 			}else {
@@ -21,6 +22,6 @@ layui.use('form', function() {
 			}
 		});
 		return false;
-	})
+	});
 	
 });

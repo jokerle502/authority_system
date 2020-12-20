@@ -11,8 +11,8 @@
 	    font-size : 20px !important;
 	}
 </style>
-<script type="text/javascript" src="${ctx}/static/js/hp_form.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/menu.js"></script>
+<%--<script type="text/javascript" src="${ctx}/static/js/hp_form.js"></script>--%>
+<%--<script type="text/javascript" src="${ctx}/static/js/menu.js"></script>--%>
 </head>
 <body>
 	<div class="body_main">
@@ -20,7 +20,7 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label">父级菜单</label>
 				<div class="layui-input-block">
-					<select name="pid" lay-verify="required">
+					<select name="pid" id="pid" lay-verify="required">
 						<option value="0">顶级目录</option>
 						<c:forEach items="${list}" var="menu">
 							<option value="${menu.id}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${menu.menuName}</option>
@@ -43,7 +43,7 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label">菜单类型</label>
 				<div class="layui-input-block">
-					<select name="menuType" lay-verify="required">
+					<select name="menuType" id="menuType" lay-verify="required">
 						<option value=""></option>
 						<option value="1">目录</option>
 						<option value="2">菜单</option>
@@ -97,5 +97,87 @@
 			</div>
 		</form>
 	</div>
+	<script type="text/javascript">
+	$(function() {
+		$('input[name="menuImg"]').on('click', function(){
+			$('.icon-div').toggle();
+		});
+
+		layui.use(['form','table'], function() {
+			let form = layui.form;
+
+			form.on('radio(icon)', function(data){
+				$('.icon-div').hide();
+				$('input[name="menuImg"]').val(data.value);
+				$('.layui-form-mid').empty().append("<span class='iconfont "+data.value+"'></span>");
+			});
+
+			//通用弹出层表单提交方法
+			form.on('submit(demo1)', function(data){
+				// console.log(data.field);
+
+				$.post($('form').attr("action"),data.field, function (e){
+                    if (e.result) {
+                    	$.ajax({
+							type:"POST",
+							url:'${pageContext.request.contextPath}/user/refresh',
+							dataType:'json',
+							data:JSON.stringify(data.field),
+							success:function(data){
+								if (data.result)
+								alert("成功");
+							},
+							error:function() {}
+						});
+                        parent.closeLayer(e.msg);
+                        layer.msg('操作成功：' + e.msg, {icon: 1, time: 2000});
+                    }else {
+                        layer.msg('操作失败：' + e.msg, {icon: 2, time: 2000});
+                    }
+				});
+				return false;
+			});
+
+			//新增
+			$('.bt_add').on('click', function() {
+				let d = $(this).attr("data");
+				layer.open({
+					type : 2,
+					title : '新增',
+					shadeClose : true,
+					area : [ d.split(",")[0], d.split(",")[1]],
+					content : $(this).attr("data-url")
+				});
+			});
+		});
+
+	})
+</script>
 </body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </html>
