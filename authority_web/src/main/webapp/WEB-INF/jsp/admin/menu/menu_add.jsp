@@ -12,7 +12,7 @@
 	}
 </style>
 <%--<script type="text/javascript" src="${ctx}/static/js/hp_form.js"></script>--%>
-<%--<script type="text/javascript" src="${ctx}/static/js/menu.js"></script>--%>
+<script type="text/javascript" src="${ctx}/static/js/menu.js"></script>
 </head>
 <body>
 	<div class="body_main">
@@ -91,53 +91,31 @@
 			</div>
 			<div class="layui-form-item">
 				<div class="layui-input-block">
-					<button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+					<button class="layui-btn" lay-submit="" lay-filter="demo1" onclick="addButton()">立即提交</button>
 					<button type="reset" class="layui-btn layui-btn-primary">重置</button>
 				</div>
 			</div>
 		</form>
 	</div>
+	<script type="javascript" src="${ctx}/static/js/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript">
+
 	$(function() {
-		$('input[name="menuImg"]').on('click', function(){
-			$('.icon-div').toggle();
-		});
-
-		layui.use(['form','table'], function() {
+		layui.use('form', function() {
 			let form = layui.form;
-
-			form.on('radio(icon)', function(data){
-				$('.icon-div').hide();
-				$('input[name="menuImg"]').val(data.value);
-				$('.layui-form-mid').empty().append("<span class='iconfont "+data.value+"'></span>");
-			});
-
 			//通用弹出层表单提交方法
 			form.on('submit(demo1)', function(data){
-				// console.log(data.field);
 
 				$.post($('form').attr("action"),data.field, function (e){
                     if (e.result) {
-                    	$.ajax({
-							type:"POST",
-							url:'${pageContext.request.contextPath}/user/refresh',
-							dataType:'json',
-							data:JSON.stringify(data.field),
-							success:function(data){
-								if (data.result)
-								alert("成功");
-							},
-							error:function() {}
-						});
-                        parent.closeLayer(e.msg);
-                        layer.msg('操作成功：' + e.msg, {icon: 1, time: 2000});
+						location.href='${ctx}/user/refresh';
+						parent.closeLayer(e.msg);
                     }else {
                         layer.msg('操作失败：' + e.msg, {icon: 2, time: 2000});
                     }
 				});
 				return false;
 			});
-
 			//新增
 			$('.bt_add').on('click', function() {
 				let d = $(this).attr("data");
@@ -154,30 +132,4 @@
 	})
 </script>
 </body>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </html>
